@@ -2,7 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
-import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  setDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import toast from "react-hot-toast";
 import {
   Save,
