@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/)",
+      "Bash(ls -la src/app/api/)",
+      "Bash(ls -la src/src/app/api/)",
+      "Bash(mkdir -p src/app/api/generate-content)",
+      "Bash(cp src/src/app/api/generate-content/route.js src/app/api/generate-content/route.js)",
+      "Bash(rm -rf src/src/app/api)",
+      "Bash(curl -s -X POST http://localhost:3001/api/generate-content -H \"Content-Type: application/json\" -d '{\"chapterDetails\":\"Photosynthesis\"}')",
+      "Bash(curl -s -X POST http://localhost:3002/api/generate-content -H \"Content-Type: application/json\" -d '{\"chapterDetails\":\"Photosynthesis\"}')"
+    ]
+  }
+}

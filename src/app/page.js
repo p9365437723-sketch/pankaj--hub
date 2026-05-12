@@ -6,8 +6,9 @@ import { auth } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { BookOpen, GraduationCap, Users, Shield, ArrowRight, Loader2 } from "lucide-react";
+import { BookOpen, GraduationCap, Users, Shield, ArrowRight, Loader2, Search } from "lucide-react";
 import Image from "next/image";
+import GlobalSearch from "@/components/GlobalSearch";
 
 export default function Home() {
   const [isLogin, setIsLogin] = useState(true);
@@ -17,6 +18,7 @@ export default function Home() {
   const [adminId, setAdminId] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
   const [loadingAction, setLoadingAction] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   
   const { loginAdmin, user, loading } = useAuth();
   const router = useRouter();
@@ -97,6 +99,24 @@ export default function Home() {
       {/* Background glowing effects */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary-600/20 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-primary-500/10 blur-[120px] pointer-events-none" />
+
+      {/* Search Button - Top Right */}
+      <button
+        onClick={() => setShowSearch(true)}
+        className="absolute top-6 right-6 z-50 flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white/80 hover:bg-white/20 hover:text-white transition-all backdrop-blur-sm"
+      >
+        <Search className="w-4 h-4" />
+        <span className="text-sm">Search</span>
+      </button>
+
+      {/* Search Modal */}
+      {showSearch && (
+        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-20 bg-black/60 backdrop-blur-sm" onClick={() => setShowSearch(false)}>
+          <div onClick={(e) => e.stopPropagation()} className="w-full max-w-2xl mx-4">
+            <GlobalSearch onClose={() => setShowSearch(false)} />
+          </div>
+        </div>
+      )}
 
       {/* Left side - Branding */}
       <div className="flex-1 flex items-center justify-center p-8 md:p-16 z-10">

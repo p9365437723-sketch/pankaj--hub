@@ -27,7 +27,7 @@ export async function POST(req) {
 
     console.log("🚀 Starting content generation...");
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const prompt = `You are an expert educational content creator. Generate comprehensive study material for:
 
