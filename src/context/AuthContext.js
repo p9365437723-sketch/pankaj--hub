@@ -67,6 +67,8 @@ export function AuthProvider({ children }) {
     const adminUser = { uid: "admin", role: "admin", email: "admin@pankajsir.com", name: "Admin" };
     setUser(adminUser);
     localStorage.setItem("adminAuth", "true");
+    localStorage.setItem("userRole", "admin");
+    localStorage.setItem("userId", "admin");
     router.push("/admin");
   };
 
