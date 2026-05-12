@@ -3,21 +3,23 @@
 import { useState, useEffect, use } from "react";
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-import { ArrowLeft, Loader2, CheckCircle2, XCircle, Bookmark, BookmarkCheck } from "lucide-react";
+import { ArrowLeft, Loader2, CheckCircle2, XCircle, Bookmark, BookmarkCheck, Search } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
+import GlobalSearch from "@/components/GlobalSearch";
 
 export default function ChapterPage({ params }) {
   const unwrappedParams = use(params);
   const chapterId = unwrappedParams.id;
-  
+
   const { user } = useAuth();
-  
+
   const [chapter, setChapter] = useState(null);
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("notes");
+  const [showSearch, setShowSearch] = useState(false);
 
   // Quiz State
   const [quizScores, setQuizScores] = useState({});
@@ -125,11 +127,21 @@ export default function ChapterPage({ params }) {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <Link href="/dashboard" className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors">
-          <ArrowLeft className="w-4 h-4" /> Back to Dashboard
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link href="/dashboard" className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors">
+            <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+          </Link>
+          {/* Search Button */}
+          <button
+            onClick={() => setShowSearch(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white/80 hover:bg-white/20 hover:text-white transition-all"
+          >
+            <Search className="w-4 h-4" />
+            <span className="text-sm">Search</span>
+          </button>
+        </div>
         {user && user.uid !== "admin" && (
-          <button 
+          <button
             onClick={toggleBookmark}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${isBookmarked ? 'bg-primary-600/30 text-primary-400 border border-primary-500/30' : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'}`}
           >
@@ -138,6 +150,15 @@ export default function ChapterPage({ params }) {
           </button>
         )}
       </div>
+
+      {/* Search Modal */}
+      {showSearch && (
+        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-24 bg-black/60 backdrop-blur-sm" onClick={() => setShowSearch(false)}>
+          <div onClick={(e) => e.stopPropagation()} className="w-full max-w-2xl mx-4">
+            <GlobalSearch onClose={() => setShowSearch(false)} />
+          </div>
+        </div>
+      )}
       
       <div className="glass-panel p-8 mb-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500/20 rounded-full blur-3xl" />
